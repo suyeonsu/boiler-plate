@@ -6,6 +6,7 @@ const port = 3000
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const config = require('./config/key')
+const { auth } = require('./middleware/auth')
 const { User } = require('./models/User')
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -24,7 +25,7 @@ app.get('/', (req, res) => {
 
 // 회원가입 route
 // client에서 가져온 정보를 db에 넣는다
-app.post('/register', (req, res) => {
+app.post('/api/users/register', (req, res) => {
   const user = new User(req.body)
 
   user.save((err, userInfo) => {
@@ -35,7 +36,7 @@ app.post('/register', (req, res) => {
 
 // 로그인 route
 // 1. 요청된 e-mail을 db에 검색 2. e-mail이 존재하면 pw 일치 확인 3. pw 일치시 토큰 생성
-app.post('/login', (req, res) => {
+app.post('/api/users/login', (req, res) => {
   
   // 1
   User.findOne({ email: req.body.email }, (err, user) => {
@@ -62,6 +63,23 @@ app.post('/login', (req, res) => {
       })
     })
   })
+})
+
+// authentication route
+app.get('/api/users/auth', auth, (req, res) => {
+ 
+  // 여기까지 미들웨어를 통과했다면 authentication이 true라는 의미로, 유저정보 전달
+  res.status(200).json({
+    _id: req.user._id,
+    isAdmin: req.user.role === 0 ? false : true, // 0 일반유저, 1 어드민, 2 특정 어드민
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image
+  })
+
 })
 
 
