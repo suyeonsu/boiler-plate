@@ -83,12 +83,11 @@ userSchema.statics.findByToken = function(token, cbFunc) {
     // 토큰 decode
     jwt.verify(token, 'secretToken', function(err, decoded) {
         // 유저 id를 이용해 유저 탐색
+        // 클라이언트에서 가져온 토큰과 db의 토큰을 비교
         user.findOne({ "_id": decoded, "token": token }, function(err, user) {
             if(err) return cbFunc(err)
             cbFunc(null, user)
         })
-
-        // 클라이언트에서 가져온 토큰과 db의 토큰을 비교
     })
 }
 

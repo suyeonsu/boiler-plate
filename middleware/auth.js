@@ -5,7 +5,7 @@ let auth = (req, res, next) => {
 
     // 인증 처리
     // client cookie에서 token을 가져옴
-    let token = req.cookie.x_auth
+    let token = req.cookies.x_auth
 
     // token을 복호화하고 유저를 찾음
     User.findByToken(token, (err, user) => {
