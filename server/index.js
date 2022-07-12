@@ -2,7 +2,6 @@ const express = require('express')
 const req = require('express/lib/request')
 const res = require('express/lib/response')
 const app = express()
-const port = 3000
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const config = require('./config/key')
@@ -19,9 +18,9 @@ mongoose.connect(config.mongoURI, {
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
-app.get('/', (req, res) => {
-  res.send('Hello World! 안녕하시렵니까-?')
-})
+app.get('/', (req, res) => res.send('Hello World! 안녕하시렵니까-?'))
+
+app.get('/api/hello', (req, res) => res.send("hi hi~~"))
 
 // 회원가입 route
 // client에서 가져온 정보를 db에 넣는다
@@ -93,6 +92,9 @@ app.get('/api/users/logout', auth, (req, res) => {
       })
     })
 })
+
+
+const port = 3000
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
