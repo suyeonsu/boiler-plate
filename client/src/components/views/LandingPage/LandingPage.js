@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Auth from '../../../hoc/auth';
 
 function LandingPage() {
 
@@ -18,6 +19,7 @@ function LandingPage() {
                     navigate('/login')
                 } else {
                     alert('Failed to logout')
+                    navigate('/login')
                 }
             })
     }
@@ -30,4 +32,4 @@ function LandingPage() {
     )
 }
 
-export default LandingPage
+export default Auth(LandingPage, false)

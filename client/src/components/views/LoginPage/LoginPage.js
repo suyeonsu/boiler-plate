@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../_actions/user_action";
 import { useNavigate } from 'react-router-dom';  // react-router-dom v6부터 useHistory에서 useNavigate로 바뀜
+import Auth from '../../../hoc/auth';
 
 function LoginPage() {
 
@@ -52,4 +53,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage
+export default Auth(LoginPage, null)
